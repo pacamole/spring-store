@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.muller.spring_store.model.Product;
+import com.muller.spring_store.dto.ProductRequestDTO;
+import com.muller.spring_store.dto.ProductResponseDTO;
 import com.muller.spring_store.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
@@ -25,17 +26,17 @@ public class ProductController {
     private final ProductService service;
 
     @GetMapping
-    public List<Product> listAll() {
+    public List<ProductResponseDTO> listAll() {
         return service.findAll();
     }
 
     @GetMapping("/{id}")
-    public Product findById(@PathVariable Long id) {
+    public ProductResponseDTO findById(@PathVariable Long id) {
         return service.findById(id);
     }
 
     @PutMapping("/{id}")
-    public Product update(@PathVariable Long id, @RequestBody Product product) {
+    public ProductResponseDTO update(@PathVariable Long id, @RequestBody ProductRequestDTO product) {
         return service.update(id, product);
     }
 
@@ -47,7 +48,8 @@ public class ProductController {
     }
 
     @PostMapping
-    public Product create(@RequestBody Product product) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public ProductResponseDTO create(@RequestBody ProductRequestDTO product) {
         return service.save(product);
     }
 
