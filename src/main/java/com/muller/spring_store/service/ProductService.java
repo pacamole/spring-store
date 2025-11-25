@@ -62,7 +62,7 @@ public class ProductService {
         repository.deleteById(id);
     }
 
-    public ProductResponseDTO save(ProductRequestDTO dto) {
+    public ProductResponseDTO create(ProductRequestDTO dto) {
         Product product = mapper.toEntity(dto);
 
         if (product.getPrice() == null || product.getPrice().doubleValue() <= 0) {
