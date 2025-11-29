@@ -36,6 +36,7 @@ class SpringStoreApplicationTests {
 	@InjectMocks
 	private ProductService service;
 
+	@SuppressWarnings("null")
 	@Test
 	void create_ShouldReturnResponseDTO_WhenDataIsValid() {
 
@@ -66,12 +67,13 @@ class SpringStoreApplicationTests {
 		// Verificação
 		assertNotNull(resultado);
 		assertEquals(responseEsperado, resultado);
-		assertEquals("Notebook", resultado.name());
+		assertEquals("Notebook", resultado.getName());
 
 		// Verifica se o service executou repository corretamente
 		verify(repository, times(1)).save(any(Product.class));
 	}
 
+	@SuppressWarnings("null")
 	@Test
 	void create_ShouldReturnResponseDTO_WhenPriceIsNegative() {
 
@@ -79,8 +81,8 @@ class SpringStoreApplicationTests {
 		ProductRequestDTO requestRuim = new ProductRequestDTO("Notebook", "Desc", new BigDecimal("-10"), 10);
 
 		Product produtoComPrecoRuim = new Product();
-        produtoComPrecoRuim.setPrice(new BigDecimal("-10"));
-        produtoComPrecoRuim.setName("Notebook");
+		produtoComPrecoRuim.setPrice(new BigDecimal("-10"));
+		produtoComPrecoRuim.setName("Notebook");
 
 		IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
 			service.create(requestRuim);
@@ -94,6 +96,7 @@ class SpringStoreApplicationTests {
 		verify(repository, never()).save(any());
 	}
 
+	@SuppressWarnings("null")
 	@Test
 	void update_ShouldReturnResponseDTO_WhenDataIsInvalid() {
 

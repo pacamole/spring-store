@@ -12,10 +12,10 @@ public class ProductMapper {
     public Product toEntity(ProductRequestDTO dto) {
         Product product = new Product();
 
-        product.setName(dto.name());
-        product.setDescription(dto.description());
-        product.setPrice(dto.price());
-        product.setStockQuantity(dto.stockQuantity());
+        product.setName(dto.getName());
+        product.setDescription(dto.getDescription());
+        product.setPrice(dto.getPrice());
+        product.setStockQuantity(dto.getStockQuantity());
 
         return product;
     }
