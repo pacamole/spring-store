@@ -30,7 +30,7 @@ O projeto segue uma arquitetura robusta, segura e escalável:
 ### Passos
 1. **Clone o repositório:**
    ```bash
-   git clone [https://github.com/SEU-USUARIO/spring-store.git](https://github.com/SEU-USUARIO/spring-store.git)
+   git clone [https://github.com/pacamole/spring-store.git](https://github.com/SEU-USUARIO/spring-store.git)
    ```
 2. **Entre na pasta do projeto:**
    ```bash
