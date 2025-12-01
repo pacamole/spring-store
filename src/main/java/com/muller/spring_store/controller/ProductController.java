@@ -1,7 +1,9 @@
 package com.muller.spring_store.controller;
 
-import java.util.List;
-
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import com.muller.spring_store.dto.ProductRequestDTO;
 import com.muller.spring_store.dto.ProductResponseDTO;
 import com.muller.spring_store.service.ProductService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -26,8 +29,9 @@ public class ProductController {
     private final ProductService service;
 
     @GetMapping
-    public List<ProductResponseDTO> listAll() {
-        return service.findAll();
+    @Operation(summary = "Lista de produtos paginados", description = "Use parâmetros como ?page=0&size=10&sort=name,asc")
+    public Page<ProductResponseDTO> listAll(@ParameterObject @PageableDefault(size = 10, page = 0, sort = "name") Pageable pageable) {
+        return service.findAll(pageable);
     }
 
     @GetMapping("/{id}")

@@ -1,7 +1,7 @@
 package com.muller.spring_store.service;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.muller.spring_store.dto.ProductRequestDTO;
@@ -10,6 +10,7 @@ import com.muller.spring_store.mapper.ProductMapper;
 import com.muller.spring_store.model.Product;
 import com.muller.spring_store.repository.ProductRepository;
 
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -18,8 +19,8 @@ public class ProductService {
     private final ProductRepository repository;
     private final ProductMapper mapper;
 
-    public List<ProductResponseDTO> findAll() {
-        return repository.findAll().stream().map(mapper::toDTO).toList();
+    public Page<ProductResponseDTO> findAll(@NonNull Pageable pageable) {
+        return repository.findAll(pageable).map(mapper::toDTO); // A função do .map é transformar objetos em outros
     }
 
     public ProductResponseDTO findById(long id) {
