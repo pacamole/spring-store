@@ -36,8 +36,13 @@ public class SecurityFilter extends OncePerRequestFilter {
 
                 UserDetails user = userRepository.findByEmail(login);
 
-                var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                // Se o token for válido, mas o usuário foi deletado (ou o banco mudou),
+                // 'user' será null. Precisamos checar antes de usar.
+                if (user != null) {
+                    var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
+
             }
 
         }

@@ -1,0 +1,27 @@
+services:
+  #SERVIÇO 1: O Banco de Dados
+  db:
+    image: postgres:15-alpine
+    container_name: spring-store-db
+    environment:
+      POSTGRES_DB: springstore
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data # Persistência do Banco
+
+  # SERVIÇO 2: A Aplicação Spring Boot
+  app:
+    build: . # Constroi usando o dockerfile na raiz do projeto
+    container_name: spring-store-api
+    ports:
+      - "8080:8080"
+    environment:
+      # Aqui ativa o perfil do Spring para usar o PostgreSQL
+      - SPRING-PROFILES_active=pg
+    depends_on:
+      - db # Garante que o banco de dados inicie antes da aplicação
+volumes:
+  postgres-data: # Volume gerenciado pelo docker
