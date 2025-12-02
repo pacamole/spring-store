@@ -1,60 +1,72 @@
 # 🛒 Spring Store API
 
-API RESTful para gerenciamento de estoque e catálogo de produtos, desenvolvida com foco em **Clean Code**, **Arquitetura em Camadas** e **Boas Práticas de Mercado**.
+API RESTful para gerenciamento de estoque e catálogo de produtos, desenvolvida com foco em **Clean Code**, **Arquitetura em Camadas**, **Segurança** e **Escalabilidade**.
 
 ## 🚀 Tecnologias & Ferramentas
 
-* **Java 21 LTS** (Core - Foco em estabilidade)
-* **Spring Boot 3.4** (Framework principal)
-* **Spring Data JPA** (Persistência de dados)
-* **H2 Database** (Banco de dados em arquivo para persistência local)
-* **JUnit 5 & Mockito** (Suíte de Testes Unitários)
-* **OpenAPI / Swagger** (Documentação Viva e Interativa)
-* **Lombok** (Redução de boilerplate)
+* **Java 21 LTS** (Core)
+* **Spring Boot 3.4** (Framework)
+* **Spring Data JPA** (Persistência)
+* **Spring Security + JWT** (Autenticação Stateless)
+* **H2 Database** (Banco em arquivo para dev rápido)
+* **PostgreSQL** (Banco de produção via Docker)
+* **Docker & Docker Compose** (Containerização)
+* **JUnit 5 & Mockito** (Testes Unitários)
+* **OpenAPI / Swagger** (Documentação Viva)
+* **Lombok** (Produtividade)
 
 ## 🏗️ Arquitetura e Padrões
 
-O projeto segue uma arquitetura robusta, segura e escalável:
+O projeto segue uma arquitetura híbrida e robusta:
 
-* **Layered Architecture:** Separação estrita de responsabilidades entre `Controller` (Web), `Service` (Regra de Negócio) e `Repository` (Acesso a Dados).
-* **DTO Pattern (Data Transfer Object):** Uso de Java Records para blindar a API, evitando a exposição direta das entidades JPA.
-* **Global Exception Handling:** Tratamento centralizado de erros (`@RestControllerAdvice`) convertendo exceptions Java em respostas JSON amigáveis e padronizadas.
-* **Validation Centralizada:** Aplicação do princípio DRY (*Don't Repeat Yourself*), com métodos de validação de negócio reutilizáveis na camada de Serviço.
-* **JPA Auditing:** Gestão automática de metadados, como datas de criação (`created_at`) e última atualização (`updated_at`).
+* **Layered Architecture:** Separação estrita (Controller, Service, Repository).
+* **DTO Pattern:** Blindagem da API contra exposição de entidades e *Mass Assignment*.
+* **Secure by Design:**
+    * Autenticação via **Tokens JWT**.
+    * Senhas criptografadas com **BCrypt**.
+    * Proteção contra acesso a recursos sem credenciais.
+* **Global Exception Handling:** Tratamento centralizado de erros (`@RestControllerAdvice`).
+* **Validation Centralizada:** Regras de negócio reutilizáveis e princípio DRY.
+* **Infraestrutura como Código:** Ambiente completo configurado via `docker-compose`.
 
-## ⚙️ Como Rodar Localmente
+## ⚙️ Como Rodar (Escolha seu Modo)
 
-### Pré-requisitos
-* Java 21 (JDK) instalado e configurado no PATH.
+O projeto suporta dois modos de execução via **Spring Profiles**.
 
-### Passos
+### Opção A: Modo Dev (Rápido) ⚡
+Usa banco **H2 em arquivo**. Ideal para testes rápidos sem instalar nada.
+
 1. **Clone o repositório:**
    ```bash
-   git clone [https://github.com/pacamole/spring-store.git](https://github.com/SEU-USUARIO/spring-store.git)
-   ```
-2. **Entre na pasta do projeto:**
-   ```bash
+   git clone [https://github.com/SEU-USUARIO/spring-store.git](https://github.com/pacamole/spring-store.git)
    cd spring-store
    ```
-3. **Execute a aplicação (via Maven Wrapper):**
-* No Windows:
-   ```bash
-   ./mvnw spring-boot:run
+2. Execute (Maven Wrapper):
+- Windows: `./mvnw spring-boot:run`
+- Linux/Mac: `./mvnw spring-boot:run`
+
+3. Acesse: `http://localhost:8080/swagger-ui/index.html`
+---
+### Opção B: Modo Produção (Docker) 🐳
+Sobe a API junto com um banco **PostgreSQL** real em containers isolados.
+
+**Pré-requisito**: Docker Desktop instalado.
+1. Na raiz do projeto, execute:
+
+   ```Bash
+   docker-compose up --build
    ```
-* No Linux/Mac
-   ```bash
-   ./mvnw spring-boot:run
-   ```
-4. **Acesse a Documentação (Swagger UI): Abra seu navegador em: 👉**
-``` http://localhost:8080/swagger-ui/index.html ```
+2. O que acontece:
+
+- O Docker baixa o PostgreSQL.
+- O Docker compila a aplicação (Multi-stage build).
+- A API sobe conectada ao Postgres automaticamente.
+
+3. Acesse: http://localhost:8080/swagger-ui/index.html
+**Nota**: Os dados do PostgreSQL são persistidos no volume postgres-data.
 
 ## 🧪 Testes
-O projeto conta com testes unitários cobrindo as regras de negócio da camada de Serviço, utilizando Mocks para isolar dependências externas.
-
-Para rodar a suíte de testes:
-   ```bash
+Para rodar a suíte de testes unitários:
+   ```Bash
    ./mvnw test
    ```
-
-## 📝 Autor
-Desenvolvido como parte de um programa de mentoria avançada em Ecossistema Spring, focando na transição de conceitos teóricos para implementações de mercado.
