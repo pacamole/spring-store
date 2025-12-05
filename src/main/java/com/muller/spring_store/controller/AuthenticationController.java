@@ -19,7 +19,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/auth") // Mantenha o padrão /api
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
 

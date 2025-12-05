@@ -3,9 +3,11 @@ package com.muller.spring_store.dto;
 import java.math.BigDecimal;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class ProductResponseDTO {
     @Schema(description = "Identificador único (Gerado automaticamente)", example = "1")
     private Long id;
@@ -17,18 +19,4 @@ public class ProductResponseDTO {
     private BigDecimal price;
     @Schema(description = "Quantidade em estoque", example = "5")
     private Integer stockQuantity;
-
-    public ProductResponseDTO(Long id,
-            String name,
-            String description,
-            BigDecimal price,
-            Integer stockQuantity) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.stockQuantity = stockQuantity;
-
-    }
-
 }
