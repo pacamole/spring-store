@@ -14,6 +14,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.Data;
 
 @Data
@@ -24,6 +25,9 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Version
+    private Long version; // garante que o estoque seja respeitado ao fazer requisições no mesmo horário
 
     @Column
     private String name;
@@ -41,5 +45,5 @@ public class Product {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
-    
+
 }

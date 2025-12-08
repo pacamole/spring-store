@@ -30,7 +30,8 @@ public class ProductController {
 
     @GetMapping
     @Operation(summary = "Lista de produtos paginados", description = "Use parâmetros como ?page=0&size=10&sort=name,asc")
-    public Page<ProductResponseDTO> listAll(@ParameterObject @PageableDefault(size = 10, page = 0, sort = "name") Pageable pageable) {
+    public Page<ProductResponseDTO> listAll(
+            @ParameterObject @PageableDefault(size = 10, page = 0, sort = "name") Pageable pageable) {
         return service.findAll(pageable);
     }
 

@@ -1,60 +1,74 @@
-# 🛒 Spring Store API
+# 🛒 Spring Store API (v2.0)
 
-API RESTful para gerenciamento de estoque e catálogo de produtos, desenvolvida com foco em **Clean Code**, **Arquitetura em Camadas** e **Boas Práticas de Mercado**.
+API RESTful robusta para e-commerce, desenvolvida com **Spring Boot 3.4** e **Java 21**.
+Este projeto demonstra a implementação de uma arquitetura Enterprise, focada em escalabilidade, segurança e integridade de dados.
 
-## 🚀 Tecnologias & Ferramentas
+## 🚀 Tecnologias & Stack
 
-* **Java 21 LTS** (Core - Foco em estabilidade)
-* **Spring Boot 3.4** (Framework principal)
-* **Spring Data JPA** (Persistência de dados)
-* **H2 Database** (Banco de dados em arquivo para persistência local)
-* **JUnit 5 & Mockito** (Suíte de Testes Unitários)
-* **OpenAPI / Swagger** (Documentação Viva e Interativa)
-* **Lombok** (Redução de boilerplate)
+* **Core:** Java 21 LTS, Spring Boot 3.4
+* **Dados:** Spring Data JPA, PostgreSQL (Prod), H2 (Dev)
+* **Segurança:** Spring Security, JWT (Stateless), OAuth2 (Google Client)
+* **Testes:** JUnit 5, Mockito
+* **Doc:** OpenAPI (Swagger UI)
+* **Infra:** Docker, Docker Compose
+* **Lombok** (Produtividade)
 
-## 🏗️ Arquitetura e Padrões
+## 🏗️ Funcionalidades & Arquitetura
 
-O projeto segue uma arquitetura robusta, segura e escalável:
+### 🛡️ Segurança Avançada (Hybrid Auth)
+* **Múltiplos Provedores:** Suporte a Login via Email/Senha e **Login Social (Google)**.
+* **Stateless:** Geração automática de **JWT** para ambos os fluxos.
+* **Defesa:** Proteção contra ataques (CORS configurado), senhas com BCrypt e rotas protegidas por Role.
 
-* **Layered Architecture:** Separação estrita de responsabilidades entre `Controller` (Web), `Service` (Regra de Negócio) e `Repository` (Acesso a Dados).
-* **DTO Pattern (Data Transfer Object):** Uso de Java Records para blindar a API, evitando a exposição direta das entidades JPA.
-* **Global Exception Handling:** Tratamento centralizado de erros (`@RestControllerAdvice`) convertendo exceptions Java em respostas JSON amigáveis e padronizadas.
-* **Validation Centralizada:** Aplicação do princípio DRY (*Don't Repeat Yourself*), com métodos de validação de negócio reutilizáveis na camada de Serviço.
-* **JPA Auditing:** Gestão automática de metadados, como datas de criação (`created_at`) e última atualização (`updated_at`).
+### 📦 Gestão de Pedidos & Estoque
+* **Modelagem Relacional:** Relacionamentos complexos (`User` 1-N `Order` 1-N `OrderItem`).
+* **Integridade de Dados:** O preço do item é congelado no momento da compra (Snapshot) para histórico fidedigno.
+* **Controle de Concorrência:** Uso de **Optimistic Locking (`@Version`)** para impedir que dois usuários comprem o último item do estoque simultaneamente.
+* **Lógica de Negócio:** Validação de saldo, cálculo automático de totais e estorno de estoque em caso de edição/cancelamento.
 
-## ⚙️ Como Rodar Localmente
+### 💻 Padrões de Projeto (Design Patterns)
+* **Layered Architecture:** Separação estrita (Controller -> Service -> Repository).
+* **DTOs & Mappers:** Isolamento total do modelo de domínio (Entities) da camada pública.
+* **Exception Handling:** Tratamento global de erros com respostas JSON padronizadas (RFC 7807).
+* **Validation:** Regras de negócio centralizadas e reutilizáveis (DRY).
 
-### Pré-requisitos
-* Java 21 (JDK) instalado e configurado no PATH.
+## ⚙️ Como Rodar (Escolha seu Modo)
 
-### Passos
+O projeto suporta dois modos de execução via **Spring Profiles**.
+
+### Opção A: Modo Produção (Docker) 🐳
+Sobe a API junto com um banco **PostgreSQL** real em containers isolados.
+
+**Pré-requisito:** Docker Desktop instalado.
+
+1. **Na raiz do projeto, execute:**
+   ```bash
+   docker-compose up --build
+   ```
+
+2. **O que acontece:**
+- O Docker baixa o PostgreSQL.
+- O Docker compila a aplicação (Multi-stage build).
+- A API sobe conectada ao Postgres automaticamente.
+
+3. **Acesse:** `http://localhost:8080/swagger-ui/index.html`
+   **Nota**: Os dados do PostgreSQL são persistidos no volume postgres-data.
+
+### Opção B: Modo Dev (Rápido) ⚡
+Usa banco H2 em arquivo. Ideal para testes rápidos sem instalar nada.
 1. **Clone o repositório:**
    ```bash
-   git clone [https://github.com/pacamole/spring-store.git](https://github.com/SEU-USUARIO/spring-store.git)
-   ```
-2. **Entre na pasta do projeto:**
-   ```bash
+   git clone [https://github.com/SEU-USUARIO/spring-store.git](https://github.com/SEU-USUARIO/spring-store.git)
    cd spring-store
    ```
-3. **Execute a aplicação (via Maven Wrapper):**
-* No Windows:
-   ```bash
-   ./mvnw spring-boot:run
-   ```
-* No Linux/Mac
-   ```bash
-   ./mvnw spring-boot:run
-   ```
-4. **Acesse a Documentação (Swagger UI): Abra seu navegador em: 👉**
-``` http://localhost:8080/swagger-ui/index.html ```
+2. **Execute (Maven Wrapper):**
+- Windows: `./mvnw spring-boot:run`
+- Linux/Mac: `./mvnw spring-boot:run`
 
-## 🧪 Testes
-O projeto conta com testes unitários cobrindo as regras de negócio da camada de Serviço, utilizando Mocks para isolar dependências externas.
+3. **Acesse:** `http://localhost:8080/swagger-ui/index.html`
 
-Para rodar a suíte de testes:
+## 🧪 Testes e Qualidade
+O projeto possui testes unitários cobrindo fluxos críticos (Criação de Pedidos, Validação de Estoque). Para rodar a suíte de testes:
    ```bash
    ./mvnw test
    ```
-
-## 📝 Autor
-Desenvolvido como parte de um programa de mentoria avançada em Ecossistema Spring, focando na transição de conceitos teóricos para implementações de mercado.
