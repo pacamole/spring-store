@@ -58,7 +58,7 @@ Sobe a API junto com um banco **PostgreSQL** real em containers isolados.
 Usa banco H2 em arquivo. Ideal para testes rápidos sem instalar nada.
 1. **Clone o repositório:**
    ```bash
-   git clone [https://github.com/SEU-USUARIO/spring-store.git](https://github.com/SEU-USUARIO/spring-store.git)
+   git clone [https://github.com/pacamole/spring-store.git](https://github.com/pacamole/spring-store.git)
    cd spring-store
    ```
 2. **Execute (Maven Wrapper):**
