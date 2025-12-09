@@ -13,10 +13,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RegisterDTO {
-    @Schema(description = "Nome de exibição do usuário", example = "John Doe")
+    @Schema(description = "Nome de exibição do usuário", example = "Admin Chefe")
     @NotBlank(message = "O nome é obrigatório")
     private String name;
-    @Schema(description = "Email do usuário - único e um por conta", example = "johndoe@gmail.com")
+    @Schema(description = "Email do usuário - único e um por conta", example = "admin@store.com")
     @NotBlank(message = "O email é obrigatório")
     private String email;
     @Schema(description = "Senha do usuário", example = "1234")

@@ -22,13 +22,16 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Builder.Default;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Table(name = "orders") // order é sintaxe de SQL
 @EntityListeners(AuditingEntityListener.class)
 public class Order {
@@ -52,5 +55,6 @@ public class Order {
     private BigDecimal total;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Default
     private List<OrderItem> items = new ArrayList<>();
 }

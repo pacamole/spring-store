@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuthenticationDTO {
-    @Schema(description = "O email para o login do usuário", example = "johndoe@gmail.com")
+    @Schema(description = "O email para o login do usuário", example = "admin@store.com")
     @NotBlank(message = "O email é obrigatório")
     private String email;
     @Schema(description = "A senha para login do usuário", example = "1234")
