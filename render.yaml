@@ -1,0 +1,49 @@
+services:
+  # SERVIÇO 1: A API Spring Boot (Via Docker)
+  - type: web
+    name: spring-store-api
+    runtime: docker 
+    plan: free
+    region: oregon
+    envVars:
+      - key: JAVA_VERSION
+        value: "21"
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      
+      # Variáveis Secretas (O Render vai te perguntar na hora de criar)
+      - key: JWT_SECRET
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+
+      # Conexão com o Banco (Link automático com o bloco 'databases' abaixo)
+      - key: DB_HOST
+        fromDatabase:
+          name: spring-store-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: spring-store-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: spring-store-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: spring-store-db
+          property: user
+      - key: DB_PASS
+        fromDatabase:
+          name: spring-store-db
+          property: password
+
+# CORREÇÃO 2: Banco de dados tem sua própria seção separada
+databases:
+  - name: spring-store-db
+    plan: free
+    region: oregon
+    postgresMajorVersion: "15"
