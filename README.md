@@ -15,19 +15,22 @@ Este projeto demonstra a implementação de uma arquitetura Enterprise, focada e
 
 ## 🏗️ Funcionalidades & Arquitetura
 
-### 🛡️ Segurança Avançada (Hybrid Auth)
-* **Múltiplos Provedores:** Suporte a Login via Email/Senha e **Login Social (Google)**.
+### 🛡️ Segurança Híbrida (Hybrid Auth)
+* **Múltiplos métodos de autenticação:** Suporte a Login via Email/Senha e **Login Social (Google)**.
 * **Stateless:** Geração automática de **JWT** para ambos os fluxos.
-* **Defesa:** Proteção contra ataques (CORS configurado), senhas com BCrypt e rotas protegidas por Role.
+* **Defesa:** Proteção contra ataques (CORS configurado), senhas com BCrypt e rotas protegidas de CSRF.
 
 ### 📦 Gestão de Pedidos & Estoque
 * **Modelagem Relacional:** Relacionamentos complexos (`User` 1-N `Order` 1-N `OrderItem`).
-* **Integridade de Dados:** O preço do item é congelado no momento da compra (Snapshot) para histórico fidedigno.
+* **Fluxo Completo:** Criação de pedido -> Validação de Estoque -> Pagamento -> Baixa.
+* **Integridade de Dados:** O preço do item é congelado no momento da compra (Snapshot) para manter o histórico de compras fidedigno.
 * **Controle de Concorrência:** Uso de **Optimistic Locking (`@Version`)** para impedir que dois usuários comprem o último item do estoque simultaneamente.
-* **Lógica de Negócio:** Validação de saldo, cálculo automático de totais e estorno de estoque em caso de edição/cancelamento.
+* **Lógica de Negócio:** Validação de saldo, cálculo automático de valores totais e concordância com o estoque em caso de edição/cancelamento.
+
+* **Relatórios:** Dashboards de vendas gerados via SQL para alta performance.
 
 ### 💻 Padrões de Projeto (Design Patterns)
-* **Layered Architecture:** Separação estrita (Controller -> Service -> Repository).
+* **Layered Architecture:** Camadas de código independentes (Controller -> Service -> Repository).
 * **DTOs & Mappers:** Isolamento total do modelo de domínio (Entities) da camada pública.
 * **Exception Handling:** Tratamento global de erros com respostas JSON padronizadas (RFC 7807).
 * **Validation:** Regras de negócio centralizadas e reutilizáveis (DRY).
@@ -68,7 +71,9 @@ Usa banco H2 em arquivo. Ideal para testes rápidos sem instalar nada.
 3. **Acesse:** `http://localhost:8080/swagger-ui/index.html`
 
 ## 🧪 Testes e Qualidade
-O projeto possui testes unitários cobrindo fluxos críticos (Criação de Pedidos, Validação de Estoque). Para rodar a suíte de testes:
+O projeto possui testes unitários cobrindo fluxos críticos e um Data Seeder que popula o banco automaticamente em ambiente de desenvolvimento.
+
+Para rodar a suíte de testes:
    ```bash
    ./mvnw test
    ```

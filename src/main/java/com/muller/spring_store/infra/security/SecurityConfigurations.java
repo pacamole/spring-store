@@ -36,7 +36,7 @@ public class SecurityConfigurations {
                 .authorizeHttpRequests(
                         authorize -> authorize.requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll()
-                                .requestMatchers("/errors").permitAll()
+                                .requestMatchers("/error").permitAll()
                                 .requestMatchers("/v3/api-docs/**", "/swagger-ui", "/swagger-ui/**", "/swagger-ui.html")
                                 .permitAll()
                                 .anyRequest().authenticated()) // qualquer request não especificado requer autenticação
