@@ -34,7 +34,9 @@ public class TokenService {
             Algorithm algorithm = Algorithm.HMAC256(secret);
 
             return JWT.create().withIssuer("spring-store-api").withSubject(user.getEmail())
-                    .withClaim("id", user.getId()).withClaim("role", user.getRole().toString())
+                    .withClaim("id", user.getId())
+                    // será utilizado no @PreAuthorize()
+                    .withClaim("role", user.getRole().toString())
                     .withExpiresAt(genExpirationDate()).sign(algorithm);
         } catch (JWTCreationException exception) {
             throw new RuntimeException("Erro ao gerar token JWT", exception);

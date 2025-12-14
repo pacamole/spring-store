@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,7 @@ public class ProductController {
 
     @GetMapping
     @Operation(summary = "Lista de produtos paginados", description = "Use parâmetros como ?page=0&size=10&sort=name,asc")
+    @PreAuthorize("hasRole('ADMIN')")
     public Page<ProductResponseDTO> listAll(
             @ParameterObject @PageableDefault(size = 10, page = 0, sort = "name") Pageable pageable) {
         return service.findAll(pageable);
@@ -41,11 +43,13 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ProductResponseDTO update(@PathVariable Long id, @RequestBody ProductRequestDTO product) {
         return service.update(id, product);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable long id) {
         service.delete(id);
@@ -53,6 +57,7 @@ public class ProductController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public ProductResponseDTO create(@RequestBody ProductRequestDTO product) {
         return service.create(product);
