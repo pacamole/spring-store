@@ -29,6 +29,28 @@ Este projeto demonstra a implementação de uma arquitetura Enterprise, focada e
 
 * **Relatórios:** Dashboards de vendas gerados via SQL para alta performance.
 
+## 📐 Modelagem e Design
+
+Abaixo estão os diagramas UML que detalham a estrutura e o comportamento do sistema.
+
+### 1. Diagrama de Casos de Uso (Roles & Permissions)
+Ilustra a segregação de responsabilidades entre **User** (Cliente) e **Admin**.
+
+![Diagrama de Casos de Uso](assets/use-case.png)
+
+*A generalização indica que o Admin herda todas as capacidades do User comum, além de possuir privilégios de gestão.*
+
+### 2. Diagrama de Classes (Domain Model)
+Representa a estrutura do banco de dados relacional e as associações entre as entidades.
+*Destaque para a relação de composição entre `Order` e `OrderItem`, garantindo integridade referencial forte.*
+
+![Diagrama de Classes](assets/class-diagram.png)
+
+### 3. Diagrama de Sequência (Fluxo de Checkout)
+Detalha o "Caminho Feliz" da criação de um pedido, demonstrando a interação entre as camadas (`Controller` -> `Service` -> `Repository`) e a validação de estoque item a item.
+
+![Diagrama de Sequência](assets/sequence-diagram.png)
+
 ### 💻 Padrões de Projeto (Design Patterns)
 * **Layered Architecture:** Camadas de código independentes (Controller -> Service -> Repository).
 * **DTOs & Mappers:** Isolamento total do modelo de domínio (Entities) da camada pública.
