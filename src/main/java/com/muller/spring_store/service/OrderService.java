@@ -31,10 +31,6 @@ public class OrderService {
     private final OrderMapper mapper;
 
     private void processItemsAndCalculateTotal(Order order) {
-        if (order.getItems() == null) {
-            return;
-        }
-
         BigDecimal total = BigDecimal.ZERO;
 
         for (OrderItem item : order.getItems()) {
